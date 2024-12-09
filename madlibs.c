@@ -12,12 +12,10 @@
 
 // Function prototypes
 void Read(FILE* fptr, int width, char lib[][width]);
-<<<<<<< HEAD
 void Display(char lib[][COLUMNS], int rows);
 void Replace(char lib[][COLUMNS], int rows);
 void userInput(char prompt, char* input);
 
->>>>>>> origin/master
 int main() {
     char lib[ROWS][COLUMNS];
     FILE* fptr;
@@ -91,26 +89,6 @@ void Replace(char lib[][COLUMNS], int rows) {
           
     }
     
-}
-
-//prompts user for input using placeholder type
-void userInput(char prompt, char* input) {
-	if (prompt == 'A') {
-		printf("Please enter an adjective: ");
-	} else if (prompt == 'N') {
-		printf("Please enter a noun: ");
-	} else if (prompt == 'V') {
-		printf("Please enter a verb: ");
-	}
-
-	fgets(input, COLUMNS, stdin);
-	//removing the newline character
-	for (int i = 0; input[i] != '\0'; i++) {
-		if (input[i] == '\n') {
-			input[i] = '\0';
-		break;
-		}
-	}
 }
 
 
