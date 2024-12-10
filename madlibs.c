@@ -1,5 +1,5 @@
 
-// Evan Barnett / Ian Lane / name
+// Evan Barnett / Ian Lane / Tai. Calvin
 // 12-10-2024
 // Madlibs Final Project
 
@@ -10,86 +10,118 @@
 #define ROWS 25
 #define COLUMNS 100
 
-// Function prototypes
 void Read(FILE* fptr, int width, char lib[][width]);
 void Display(char lib[][COLUMNS], int rows);
 void Replace(char lib[][COLUMNS], int rows);
-void userInput(char prompt, char* input);
+void UserInput(char prompt, char* input);
+void RemoveN(char lib[][COLUMNS], int rows, int columns);
 
-int main() {
-    char lib[ROWS][COLUMNS];
-    FILE* fptr;
+int main(){
+	char lib[ROWS][COLUMNS];
+	FILE* fptr;
     
-    fptr = fopen(MADLIB, "r");
+	fptr = fopen(MADLIB, "r");
 
-    if (fptr == NULL) {
-        printf("Could not access file\n");
-        return 0;
-    }
+	if (fptr == NULL){
+        	printf("Could not access file\n");
+	return 0;
+	}
 
-    Read(fptr, COLUMNS, lib);  
-    fclose(fptr);
+	Read(fptr, COLUMNS, lib);  
+	fclose(fptr);
 
-    Replace(lib, ROWS);  
-    Display(lib, ROWS); 
+	RemoveN(lib, ROWS, COLUMNS);  
+	Replace(lib, ROWS);  
+	Display(lib, ROWS);  
+	
+	printf("\n");
 
-    return 0;
+	return 0;
 }
 
-// Reads the madlib file and stores content into 2D array
-void Read(FILE* fptr, int width, char lib[][width]) {
-    for (int i = 0; i < ROWS; i++) {
-        fgets(lib[i], width, fptr);
-    }
+// reads the madlib file and stores in 2d array
+void Read(FILE* fptr, int width, char lib[][width]){
+	for (int i = 0; i < ROWS; i++){
+        	fgets(lib[i], width, fptr);
+       
+        	for (int j = 0; j < width; j++){
+			if (lib[i][j] == '\n'){
+                	lib[i][j] = '\0';
+			break;  
+			}
+		}
+	}
 }
 
-// Displays madlib
-void Display(char lib[][COLUMNS], int rows) {
-    for (int i = 0; i < rows; i++) {
-        printf("%s", lib[i]);
-    }
+// displays madlib to screen
+void Display(char lib[][COLUMNS], int rows){
+	for (int i = 0; i < rows; i++){
+		printf("%s", lib[i]);
+		if(lib[i][0] = '\0'){
+		break;
+		}  
+	}
 }
-// Prompts the user for input based on the placeholder type and updates the content in lib
-void userInput(char prompt, char* input) {
-    char userWord[COLUMNS];
 
-    if (prompt == 'A') {
+// gets user input based on letter 
+void UserInput(char prompt, char* input){
+	char UserWord[COLUMNS];
+
+	if (prompt == 'A'){
         printf("Please enter an adjective: ");
-    } else if (prompt == 'N') {
+	}else if (prompt == 'N'){
         printf("Please enter a noun: ");
-    } else if (prompt == 'V') {
+	}else if (prompt == 'V'){
         printf("Please enter a verb: ");
-    }
+	}
 
-    fgets(userWord, COLUMNS, stdin);
+	fgets(UserWord, COLUMNS, stdin);
 
-    // Replace placeholder with the user input
-    int i = 0;
-    while (userWord[i] != '\0' && i < COLUMNS) {
-        *input = userWord[i];  // Replace character one by one
-        
+    
+	for (int i = 0; i < COLUMNS; i++){
+	if (UserWord[i] == '\n'){
+            UserWord[i] = '\0';
+            
+	break;
+	}
+	}
+	int i = 0;
+	*input = ' ';
+	*input++;
+	while (UserWord[i] != '\0' && i < COLUMNS){
+        	*input = UserWord[i];  
         input++;
         i++;
-    }
-    *input = ' ';
-    input++;
-    *input = '\0';  
+	}
+
+	*input = ' ';
+	*input++;
+	*input = '\0';
 }
 
-// Replaces placeholders with user input
-void Replace(char lib[][COLUMNS], int rows) {
-    for (int i = 0; i < rows; i++) {
-        for (int j = 0; j < COLUMNS; j++) {
-            
-            if (lib[i][0] == 'A' || lib[i][0] == 'N' || lib[i][0] == 'V') {
-               
-                userInput(lib[i][j], &lib[i][j]);
-            }
-        }
-          
-    }
-    
+// replaces letters with user input
+void Replace(char lib[][COLUMNS], int rows){
+	for (int i = 0; i < rows; i++){
+		for (int j = 0; j < COLUMNS; j++){
+			if (lib[i][0] == 'A' || lib[i][0] == 'N' || lib[i][0] == 'V'){
+                		UserInput(lib[i][j], &lib[i][j]);
+			}
+		}
+	}
 }
+
+// removes newline characters to display nice on screen
+void RemoveN(char lib[][COLUMNS], int rows, int columns){
+	for (int i = 0; i < rows; i++){
+		for (int j = 0; j < columns; j++){
+			if (lib[i][j] == '\n'){
+				lib[i][j] = '\0';  
+				break;
+			}
+		}
+	}
+}
+
 
 
 
